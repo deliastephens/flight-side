@@ -22,14 +22,39 @@
     <div id="map"></div>
     <script>
       var map;
+      var myLatLng = {lat: 37.0902, lng: -97.755};
+
+      var i = 0;
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 37.0902, lng: -97.755},
+          center: myLatLng,
           zoom: 4
         });
+
+        poly = new google.maps.Polyline({
+          strokeColor: '#000000',
+          strokeOpacity: 1.0,
+          strokeWeight: 3
+        });
+        poly.setMap(map);
+
+        map.addListener('click', drawPoly);
+
+        function drawPoly(event) {
+          var path = poly.getPath();
+          path.push(event.latLng);
+          placeMarker(event.latLng)
+        }
+        function placeMarker(location) {
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map
+          });
+        }
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyB2kWc08_9O2WDoEk6E81aTRqbY1ZRbY2A &callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2kWc08_9O2WDoEk6E81aTRqbY1ZRbY2A&callback=initMap"
     async defer></script>
   </body>
 </html>
